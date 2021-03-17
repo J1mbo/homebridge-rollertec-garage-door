@@ -1,0 +1,31 @@
+{
+  "author": "James Pearce <pearce_jj@hotmail.com> (www.lo-tech.co.uk)",
+  "bugs": {
+    "url": "https://github.com/J1mbo/homebridge-rollertec-garage-door/issues"
+  },
+  "deprecated": false,
+  "description": "Garage door interface for PDT Rollertec garage doors.",
+  "engines": {
+    "homebridge": ">=1.0.0"
+  },
+  "homepage": "https://github.com/J1mbo/homebridge-rollertec-garage-door#readme",
+  "keywords": [
+    "homebridge-plugin",
+    "homebridge",
+    "garage door",
+    "garagedoor",
+    "rollertec",
+    "lo-tech"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "homebridge-rollertec-garage-door",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/J1mbo/homebridge-rollertec-garage-door.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.1.0"
+}

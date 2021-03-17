@@ -1,0 +1,66 @@
+{
+  "pluginAlias": "RollertecGarageDoor",
+  "pluginType": "accessory",
+  "singular": false,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "title": "Name",
+        "type": "string",
+        "default": "Garage Door",
+        "required": true
+      },
+      "doorMonitor": {
+        "title": "Helper script to monitor the door status via the information LED",
+        "type": "string",
+        "required": false
+      },
+      "open": {
+        "title": "Command to open door",
+        "type": "string",
+        "required": false
+      },
+      "close": {
+        "title": "Command to close door",
+        "type": "string",
+        "required": false
+      },
+      "doorSerialNumber": {
+        "title": "PDT Rollertec Serial Number",
+        "type": "string",
+        "required": false
+      },
+      "sensorPath": {
+        "title": "Dallas DS1820B temperature sensor data path",
+        "type": "string",
+        "default": "/sys/bus/w1/devices/w1_bus_master1",
+        "required": false
+      },
+      "sensorSerialNumber": {
+        "title": "Dallas DS1820B Sensor Serial Number (if more than one present in system)",
+        "type": "string",
+        "required": false
+      },
+      "ignore_errors": {
+        "title": "Ignore Errors (surpresses door jammed)",
+        "type": "boolean"
+      }
+    }
+  },
+  "form": [
+    "name",
+    "doorSerialNumber",
+    "sensorSerialNumber",
+    {
+      "type": "fieldset",
+      "expandable": true,
+      "title": "Advanced Settings",
+      "description": "These settings don't normally need to be changed.",
+      "items": [
+        "doorMonitor", "open", "close", "sensorPath", "ignore_errors"
+      ]
+    }
+  ],
+  "display": null
+}
