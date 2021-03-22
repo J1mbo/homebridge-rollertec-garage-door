@@ -252,6 +252,6 @@ except KeyboardInterrupt:
   GPIO.remove_event_detect(GPIO_CLOSE)
   GPIO.cleanup()
 
-# Standard exit (which we will never get to) here:
+# Standard exit:
 #print("Finished.")
 

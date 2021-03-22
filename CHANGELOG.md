@@ -1,21 +1,21 @@
-# [0.1.0]
+# [0.2.0]
 
 *** HomeBridge Plugin for Rollertec Garage Door Controllers ***
 
-This plugin enables HomeKit to control a garage door based on the popular PDT Rollertec controller, when interfaced with the Lo-tech PDT Rollertec Interface$
+This plugin enables HomeKit to control a garage door based on the popular PDT Rollertec controller, when interfaced to a Raspberry Pi with the Lo-tech PDT Rollertec Interface kit.
 Please read the Important Information below, before continuing.
 
 This plugin has three key components:
 
 1. The plugin itself, index.js
-2. The background LED status watcher, garagedoormonitor.py, which enables the plugin to report actual door status to HomeKit regardless of whether it's cont$3. Open and Close scripts - opendoor.sh and closedoor.sh
+2. The background LED status watcher, garagedoormonitor.py, which enables the plugin to report actual door status to HomeKit regardless of who the door is operated
+3. Open and Close scripts - opendoor.sh and closedoor.sh
 
 The plugin can be adapted to other door openers or GPIO interfacing methods by modifying or replacing those scripts, as appropriate.
 
 # KNOWN ISSUES
 
-1. Python helper is not terminated on HomeKit restart and therefore creates a leak.
-2. Error starting the phython helper is not correctly trapped.
+1. Error starting the phython helper is not correctly trapped.
 
 # IMPORTANT INFORMATION
 

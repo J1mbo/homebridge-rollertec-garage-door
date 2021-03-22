@@ -1,8 +1,11 @@
 // HomeBridge Plugin for PDT RollerTec doors interfaced with Lo-tech PDT RollerTec Controller
 // Copyright 2020,2021 James Pearce.
-// Updated March 2021 to supress warnings in HomeBridge 1.3 whilst door watcher is initialising.
+// Updated March 2021
+// - supress warnings in HomeBridge 1.3 whilst door watcher is initialising.
+// - streamline delivery as plugin
 // Based on reference HomeBridge GarageDoorCommand plugin:
 // https://developers.homebridge.io/#/service/GarageDoorOpener
+
 
 // globals and imports
 const path = require('path');                     // tells us where this plugin is installed
@@ -71,6 +74,7 @@ class RollertecGarageDoorOpenerAccessory {
       this.currentState = 1;
       this.targetState  = 1; // assume the door is closed at start up
       this.obstruction  = 0; // assume no obstruction
+      this.terminating  = 0; // surpresses helper termination false alert on graceful shutdown
   }
 
 
@@ -110,19 +114,35 @@ class RollertecGarageDoorOpenerAccessory {
     // note - there doesn't appear to be any way to terminate this when HomeBridge is restarted.
     // therefore it might be necessary to add some kind of timer to enable it to self-terminate
     const helperPath = path.join(__dirname, this.doorMonitor); // python monitor script
-    accessory.log.debug('getServices(): Invoking helper ' + helperPath + ' (' + this.doorMonitor + ')');
+    accessory.log('getServices(): Invoking helper ' + helperPath + ' (' + this.doorMonitor + ')');
     const args = ['-u', helperPath, this.doorMonitor];
+    this.terminating  = 0; // starting up
     this.helper = child_process.spawn('python', args);
 
     this.helper.stderr.on('data', (err) => {
-      throw new Error(`GarageDoor status watch scription terminated unexpectedly with error: ${err})`);
+      throw new Error(`getServices(): Helper terminated unexpectedly with error state`);
     });
 
     this.helper.stdout.on('data', (data) => {
       // command line output received from the watcher so update the status.
       // since the watcher is itself interrupt driven, there is nothing else to do
-      accessory.log.debug('getServices(): helper received data from helper.');
+      accessory.log.debug('getServices(): Received data from helper.');
       accessory.updateDoorState(data);
+    });
+
+    this.helper.on('exit', (code) => {
+      if (this.terminating == 0) {
+        // flag not set - helper crashed
+        accessory.log('getServices(): Helper was terminated unexpectedly');
+        this.getServices();
+      }
+    });
+
+    // garbage collector on exit - terminate helper
+    this.api.on('shutdown', () => {
+      accessory.log('getServices(): Terminating helper');
+      this.terminating = 1; // surpresses helper termination false alert on graceful shutdown
+      this.helper.kill('SIGHUP');
     });
 
     // And return the services to HomeBridge
