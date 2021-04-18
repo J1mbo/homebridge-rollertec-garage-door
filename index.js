@@ -1,8 +1,5 @@
 // HomeBridge Plugin for PDT RollerTec doors interfaced with Lo-tech PDT RollerTec Controller
 // Copyright 2020,2021 James Pearce.
-// Updated March 2021
-// - supress warnings in HomeBridge 1.3 whilst door watcher is initialising.
-// - streamline delivery as plugin
 // Based on reference HomeBridge GarageDoorCommand plugin:
 // https://developers.homebridge.io/#/service/GarageDoorOpener
 
@@ -110,9 +107,7 @@ class RollertecGarageDoorOpenerAccessory {
       accessory.log.debug('getServices(): DS18B20 sensor will be queried through: '  + accessory.sensorData);
     }
 
-    // start the phython helper, which will watch the door status and work out what is happening
-    // note - there doesn't appear to be any way to terminate this when HomeBridge is restarted.
-    // therefore it might be necessary to add some kind of timer to enable it to self-terminate
+    // Start the phython helper, which will watch the door status and work out what is happening
     const helperPath = path.join(__dirname, this.doorMonitor); // python monitor script
     accessory.log('getServices(): Invoking helper ' + helperPath + ' (' + this.doorMonitor + ')');
     const args = ['-u', helperPath, this.doorMonitor];
