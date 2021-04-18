@@ -1,4 +1,4 @@
-# [0.2.0]
+#[1.0.0]
 
 *** HomeBridge Plugin for Rollertec Garage Door Controllers ***
 
@@ -16,6 +16,7 @@ The plugin can be adapted to other door openers or GPIO interfacing methods by m
 # KNOWN ISSUES
 
 1. Error starting the phython helper is not correctly trapped.
+2. Nearly 433MHz sources may cause erroneous notifications if recognised by the Rollertec CPU and trigger certain LED combinations.
 
 # IMPORTANT INFORMATION
 
@@ -25,5 +26,5 @@ The plugin can be adapted to other door openers or GPIO interfacing methods by m
 - There is no security code in this plugin and the control of access to operate the door is entirely dependent on Apple HomeKit.
 - USE OF THIS SOFTWARE IS ENTIRELY AT YOUR OWN RISK.
 
-This is a beta release. If you have any feedback or wish to contribute or extend, please log an issue on the GitHub project page.
+If you have any feedback or wish to contribute or extend this plugin, please log an issue on the GitHub project page.
 

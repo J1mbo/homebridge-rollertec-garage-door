@@ -27,5 +27,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "0.2.0"
+  "funding": {
+    "type": "paypal",
+    "url": "https://paypal.me/HomebridgeJ1mbo"
+  },
+  "version": "1.0.0"
 }

@@ -1,3 +1,5 @@
+[![Donate](https://badgen.net/badge/donate/paypal)](https://paypal.me/HomebridgeJ1mbo)
+
 # homebridge-rollertec-garage-door
 
 A HomeBridge interface for PDT Rollertec controlled garage doors, capable of monitoring and controlling the door. Requires Lo-tech PDT Rollertec interface kit, or equivalent electrical connection. See www.lo-tech.co.uk/wiki/rollertc.

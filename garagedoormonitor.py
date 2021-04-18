@@ -167,19 +167,31 @@ def DetermineState():
       if eventlist[-1][1] == LED_ORANGE: retval = STATE_ERROR
     else:
       # Check for any ORANGE, which would be an error state
+      # and rapid flash codes (which are considered indeterminate)
+      lasteventtime = 0
+      minduration = 2
       for event in eventlist:
-        if (event[1] == LED_ORANGE): retval = STATE_ERROR
-      if (retval != STATE_ERROR):
-        # not an error, so must be a flashing status
-        # if latest entry is LED_OFF, state is indeterminate.
-        if eventlist[-1][1] == LED_OFF: retval = INDETERMINATE
+        if lasteventtime == 0: lasteventtime = event[0]
         else:
-          # We have a code to work with.
-          # Hopefully there are only 2 entries as it's OPENING or CLOSING
-          if len(eventlist) == 2:
-            if eventlist[0][1] == LED_OFF:
-              if eventlist[1][1] == LED_GREEN: retval = STATE_OPENING
-              elif eventlist[1][1] == LED_RED: retval = STATE_CLOSING
+          if (event[0] - lasteventtime) < minduration: minduration = event[0] - lasteventtime
+          lasteventtime = event[0]
+        if (event[1] == LED_ORANGE): retval = STATE_ERROR
+      # check the quickest interval time in the list. Quick flashes yield interdeterminate state
+      # e.g. error codes, reception of un-bound transmitter etc. In that case, the cycle just waits
+      # for a slower state code or an error indicator.
+      if (minduration < 0.5): retval = INDETERMINATE
+      else:
+        if (retval != STATE_ERROR):
+          # not an error, so must be a flashing status
+          # if latest entry is LED_OFF, state is indeterminate.
+          if eventlist[-1][1] == LED_OFF: retval = INDETERMINATE
+          else:
+            # We have a code to work with.
+            # Hopefully there are only 2 entries as it's OPENING or CLOSING
+            if len(eventlist) == 2:
+              if eventlist[0][1] == LED_OFF:
+                if eventlist[1][1] == LED_GREEN: retval = STATE_OPENING
+                elif eventlist[1][1] == LED_RED: retval = STATE_CLOSING
 
   return retval # return the state code
 
@@ -222,11 +234,11 @@ laststate = -1 # initialisation value
 try:
   while True:
     time.sleep(0.25) # check what's going on periodically
-    # * Debug * - print(eventlist)
     while spinlock:
       time.sleep(0.01) # wait for interupt handler to complete if it's in-progress
     newstate = DetermineState()
     if (newstate != laststate):
+      # DEBUG - print(eventlist)
       if (newstate != INDETERMINATE):
         # positively determined the status, so report and store it
         #print("Monitoring system (Status is currently " + StateValToText(newstate) + "). CTRL-C to end.")
