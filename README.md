@@ -2,7 +2,8 @@
 
 # homebridge-rollertec-garage-door
 
-A HomeBridge interface for PDT Rollertec controlled garage doors, capable of monitoring and controlling the door. Requires Lo-tech PDT Rollertec interface kit, or equivalent electrical connection. See www.lo-tech.co.uk/wiki/rollertc.
+A HomeBridge interface for PDT Rollertec controlled garage doors, capable of monitoring and controlling the door. Requires Lo-tech PDT Rollertec interface kit, or equivalent electrical connection.
+See www.lo-tech.co.uk/rollertec.
 
 This plugin enables the use of "Hey Siri, Open my Garage Door" and similar voice commands.
 
